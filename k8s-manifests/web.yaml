@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: dockersamples/wordsmith-web
+          image: 185332529335.dkr.ecr.eu-central-1.amazonaws.com/my-ecr-repo:web-latest
           ports:
             - containerPort: 80
               name: web

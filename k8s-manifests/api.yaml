@@ -20,7 +20,7 @@ metadata:
   labels:
     app: api
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: api
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: dockersamples/wordsmith-api
+          image: 185332529335.dkr.ecr.eu-central-1.amazonaws.com/my-ecr-repo:api-latest
           ports:
             - containerPort: 8080
               name: api
