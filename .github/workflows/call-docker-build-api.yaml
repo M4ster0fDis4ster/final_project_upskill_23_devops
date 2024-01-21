@@ -12,7 +12,7 @@ on:
     # paths:
     #   - 'bookinfo_app/src/details/**'
 env:
-  ECR_REGISTRY: 185332529335.dkr.ecr.eu-central-1.amazonaws.com/my-ecr-repo
+  ECR_REGISTRY: 185332529335.dkr.ecr.eu-central-1.amazonaws.com
   ECR_REPOSITORY: my-ecr-repo
 
 jobs:
