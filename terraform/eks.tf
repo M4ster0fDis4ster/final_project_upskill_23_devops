@@ -41,28 +41,7 @@ module "eks" {
     }
   }
 
-  # Fargate Profile(s)
-#   fargate_profiles = {
-#     default = {
-#       name = "default"
-#       selectors = [
-#         {
-#           namespace = "default"
-#         }
-#       ]
-#     }
-#   }
-
-  # aws-auth configmap
   manage_aws_auth_configmap = false
-
-#   aws_auth_roles = [
-#     {
-#       rolearn  = "arn:aws:iam::594182463744:role/role1"
-#       username = "role1"
-#       groups   = ["system:masters"]
-#     },
-#   ]
 
   aws_auth_users = [
     {
