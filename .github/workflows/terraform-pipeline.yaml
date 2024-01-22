@@ -1,13 +1,10 @@
 name: Terraform setup
 
 on: 
-
   push:
     branches:
-      - 'main'
+      - main
     
-    paths:
-      - 'terraform/**'
 jobs:
   detect_drift:
     runs-on: ubuntu-latest
