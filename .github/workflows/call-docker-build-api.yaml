@@ -2,7 +2,9 @@ name: API Service Build, Push and Deploy
 
 on:
 
-  push:
+  workflow_run:
+    workflows: ["terraform-pipeline"]
+    types: [requested]
     branches:
       - 'main'
 

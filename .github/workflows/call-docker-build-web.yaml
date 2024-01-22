@@ -1,14 +1,16 @@
-name: API Service Build, Push and Deploy
+name: Web Service Build, Push and Deploy
 
 on:
 
-  push:
+  workflow_run:
+    workflows: ["terraform-pipeline"]
+    types: [requested]
     branches:
       - 'main'
 
     paths:
-      - 'api/**'
-      - '.github/workflows/call-docker-build-api.yaml'
+      - 'web/**'
+      - '.github/workflows/call-docker-build-web.yaml'
 
 env:
   ECR_REGISTRY: 185332529335.dkr.ecr.eu-central-1.amazonaws.com
