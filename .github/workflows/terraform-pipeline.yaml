@@ -23,6 +23,8 @@ jobs:
       
       - name: Terraform plan
         id: plan
+        paths:
+          - terraform/** 
         run: |
           set +e
           terraform plan -detailed-exitcode -input=false -out=tfplan
