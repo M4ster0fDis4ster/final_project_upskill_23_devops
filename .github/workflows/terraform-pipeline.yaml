@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+
+    paths:
+      - terraform/**
+      - .github/workflows/terraform-pipeline.yaml
     
 jobs:
   detect_drift:
@@ -23,8 +27,6 @@ jobs:
       
       - name: Terraform plan
         id: plan
-        paths:
-          - terraform/** 
         run: |
           set +e
           terraform plan -detailed-exitcode -input=false -out=tfplan

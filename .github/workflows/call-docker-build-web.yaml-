@@ -2,9 +2,7 @@ name: Web Service Build, Push and Deploy
 
 on:
 
-  workflow_run:
-    workflows: ["terraform-pipeline"]
-    types: [requested]
+  push:
     branches:
       - 'main'
 
