@@ -25,7 +25,7 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["t3a.medium"]
+    instance_types = ["t3a.large"]
   }
 
   eks_managed_node_groups = {
@@ -36,7 +36,7 @@ module "eks" {
       max_size     = 10
       desired_size = 1
 
-      instance_types = ["t3a.medium"]
+      instance_types = ["t3a.large"]
       capacity_type  = "ON_DEMAND"
     }
   }
