@@ -3,6 +3,7 @@ resources:
   - k8s-manifests/db.yaml
   - k8s-manifests/web.yaml
   - k8s-manifests/prometheus.yaml
+  - k8s-manifests/grafana.yaml
 configMapGenerator:
   - name: db-schema
     files:
