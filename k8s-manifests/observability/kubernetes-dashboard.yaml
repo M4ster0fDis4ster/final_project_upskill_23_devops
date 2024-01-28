@@ -16,31 +16,31 @@
 ### Namespaces
 ################################
 
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kubernetes-dashboard
-  labels:
-    app.kubernetes.io/part-of: kubernetes-dashboard
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: kubernetes-dashboard
+#   labels:
+#     app.kubernetes.io/part-of: kubernetes-dashboard
 
----
+# ---
 
 ################################
 ### cert-manager
 ################################
 
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: selfsigned
-  namespace: kubernetes-dashboard
-  labels:
-    app.kubernetes.io/name: certmanager
-    app.kubernetes.io/part-of: kubernetes-dashboard
-spec:
-  selfSigned: {}
+# apiVersion: cert-manager.io/v1
+# kind: Issuer
+# metadata:
+#   name: selfsigned
+#   namespace: kubernetes-dashboard
+#   labels:
+#     app.kubernetes.io/name: certmanager
+#     app.kubernetes.io/part-of: kubernetes-dashboard
+# spec:
+#   selfSigned: {}
 
----
+# ---
 
 ################################
 ### Service Accounts
