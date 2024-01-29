@@ -8,7 +8,6 @@ The workshop utilizes the following technologies and tools:
 - ArgoCD: Declarative GitOps continuous delivery tool for Kubernetes.
 - Terraform: Infrastructure as Code (IaC) tool for provisioning and managing AWS resources.
 - ECR: Amazon Elastic Container Registry for securely storing and managing Docker images.
-Scanning images docu
 - Kubernetes Dashboard: Monitoring the k8s cluster
 - Improvement - terraform with a pipeline, dashboard exposed, cpu and memory metrics to show up for pods
 
