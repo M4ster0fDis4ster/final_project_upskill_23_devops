@@ -9,6 +9,8 @@ on:
     paths:
       - 'api/**'
       - '.github/workflows/call-docker-build-api.yaml'
+      - 'web/**'
+      - '.github/workflows/call-docker-build-web.yaml'
 
 env:
   ECR_REGISTRY: 185332529335.dkr.ecr.eu-central-1.amazonaws.com
