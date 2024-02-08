@@ -50,7 +50,7 @@ jobs:
         with:
             аrgs: --severity-threshold=high
 
-  build_and_push_image:
+  build_and_push_image-api:
     needs: [gitleaks_check, checking_java, checking_go]
     runs-on: ubuntu-latest
 
@@ -81,6 +81,39 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/web/
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  # build_and_push_image_web:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: eu-central-1
+
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v1
+
+  #     - name: Get short SHA
+  #       id: get-sha
+  #       run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+
+  #     - name: Build and push Docker image
+  #       env:
+  #         ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+  #         ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+  #         IMAGE_TAG: web-latest
+  #       run: |
+  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/web/
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
       # - name: Run Trivy vulnerability scanner
       #   uses: aquasecurity/trivy-action@master

@@ -15,7 +15,8 @@ env:
   ECR_REPOSITORY: my-ecr-repo
 
 jobs:
-  build_and_push_image:
+
+  build_and_push_image_web:
     runs-on: ubuntu-latest
 
     steps:
