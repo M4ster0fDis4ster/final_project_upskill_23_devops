@@ -56,7 +56,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
   gitleaks_check:
-    needs: [testing code]
+    needs: [testing_code]
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v4
@@ -78,7 +78,7 @@ jobs:
         run : mvn -f pom.xml clean test
 
   sca:
-    needs: [testing code]
+    needs: [testing_code]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
