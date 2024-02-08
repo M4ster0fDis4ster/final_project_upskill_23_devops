@@ -15,6 +15,55 @@ env:
   ECR_REPOSITORY: my-ecr-repo
 
 jobs:
+   
+   gitleaks_check:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - uses: gitleaks/gitleaks-action@v2
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # testing_code:
+  #   needs: [gitleaks_check]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Java 17 temurin
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         distribution: "temurin"
+  #         java-version: "17"
+
+  #     - name: Run Maven clean test jobs
+  #       run : mvn -f ./app/api/pom.xml clean test
+
+  checking_java:
+    needs: [gitleaks_check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Snyk to check for vulnerabilities of java code
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+            аrgs: --severity-threshold=high
+
+    checking_go:
+    needs: [gitleaks_check, checking_java]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Snyk to check for vulnerabilities of golang code
+        uses: snyk/actions/golang@master
+        continue-on-error: true
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+            аrgs: --severity-threshold=high
+
   build_and_push_image:
     runs-on: ubuntu-latest
 
@@ -37,13 +86,14 @@ jobs:
         id: get-sha
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
 
-      - name: Build Docker image
+      - name: Build and push Docker image
         env:
           ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: api-latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -54,46 +104,11 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-
-  gitleaks_check:
-    needs: [testing_code]
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v4
-        - uses: gitleaks/gitleaks-action@v2
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  testing_code:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Java 17 temurin
-        uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "17"
-
-      - name: Run Maven clean test jobs
-        run : mvn -f ./app/api/pom.xml clean test
-
-  sca:
-    needs: [testing_code]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        continue-on-error: true
-        env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-            аrgs: --severity-threshold=high
           
-      - name: Push Docker image
-        env:
-          ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-          IMAGE_TAG: api-latest
-        run: |
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      # - name: Push Docker image
+      #   env:
+      #     ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+      #     ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+      #     IMAGE_TAG: api-latest
+      #   run: |
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
