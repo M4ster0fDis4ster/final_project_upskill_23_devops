@@ -16,7 +16,7 @@ env:
 
 jobs:
    
-   gitleaks_check:
+  gitleaks_check:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
         with:
             аrgs: --severity-threshold=high
 
-    checking_go:
+  checking_go:
     needs: [gitleaks_check, checking_java]
     runs-on: ubuntu-latest
     steps:
