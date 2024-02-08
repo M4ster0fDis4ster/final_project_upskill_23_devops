@@ -64,7 +64,7 @@ jobs:
           env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  testing code:
+  testing_code:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
