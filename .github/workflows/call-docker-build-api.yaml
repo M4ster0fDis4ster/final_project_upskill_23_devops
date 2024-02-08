@@ -88,7 +88,7 @@ jobs:
   sca:
     needs: [sonarcloud]
     runs-on: ubuntu-latest
-      steps:
+    steps:
       - uses: actions/checkout@v4
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/maven@master
