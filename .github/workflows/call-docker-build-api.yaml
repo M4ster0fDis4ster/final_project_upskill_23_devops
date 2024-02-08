@@ -99,7 +99,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          image-ref: '185332529335.dkr.ecr.eu-central-1.amazonaws.com/my-ecr-repo:api-latest:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
         env:
