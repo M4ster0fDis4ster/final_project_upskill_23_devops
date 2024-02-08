@@ -44,14 +44,7 @@ jobs:
           IMAGE_TAG: api-latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
-
-      # - name: Build and push image to local repository
-      #       #   uses: docker/build-push-action@v5
-      #       #   id: build
-      #       #   with:
-      #       #     context: .
-      #       #     load: true
-
+          
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -74,11 +67,11 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
-        java-version: '11'
+        java-version: '17'
       - name: Analyze with SonarCloud
         run: ./mvnw -B verify sonar:sonar -Dsonar.projectKey=baralga -Dsonar.organization=baralga -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:
