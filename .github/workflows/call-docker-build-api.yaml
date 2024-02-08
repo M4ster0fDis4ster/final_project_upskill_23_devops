@@ -37,11 +37,71 @@ jobs:
         id: get-sha
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         env:
           ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: api-latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
+
+      # - name: Build and push image to local repository
+      #       #   uses: docker/build-push-action@v5
+      #       #   id: build
+      #       #   with:
+      #       #     context: .
+      #       #     load: true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.build.outputs.imageid }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+  gitleaks_check:
+    needs: [sonarcloud]
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - uses: gitleaks/gitleaks-action@v2
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sonarcloud:
+    runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+        java-version: '11'
+      - name: Analyze with SonarCloud
+        run: ./mvnw -B verify sonar:sonar -Dsonar.projectKey=baralga -Dsonar.organization=baralga -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            ONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  sca:
+    needs: [sonarcloud]
+    runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v4
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+            with:
+              аrgs: --severity-threshold=high
+          
+      - name: Push Docker image
+        env:
+          ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: api-latest
+        run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
