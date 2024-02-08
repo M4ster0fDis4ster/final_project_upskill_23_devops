@@ -88,8 +88,8 @@ jobs:
         continue-on-error: true
         env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-            with:
-              аrgs: --severity-threshold=high
+        with:
+            аrgs: --severity-threshold=high
           
       - name: Push Docker image
         env:
