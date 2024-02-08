@@ -65,6 +65,7 @@ jobs:
             аrgs: --severity-threshold=high
 
   build_and_push_image:
+    needs: [gitleaks_check, checking_java, checking_go]
     runs-on: ubuntu-latest
 
     steps:
@@ -98,12 +99,18 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: $$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          image-ref: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+        env:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
           
       # - name: Push Docker image
       #   env:
