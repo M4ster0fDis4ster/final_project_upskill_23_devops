@@ -75,7 +75,7 @@ jobs:
           java-version: "17"
 
       - name: Run Maven clean test jobs
-        run : mvn -f pom.xml clean test
+        run : mvn -f ./app/api/pom.xml clean test
 
   sca:
     needs: [testing_code]
