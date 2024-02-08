@@ -9,8 +9,6 @@ on:
     paths:
       - 'api/**'
       - '.github/workflows/call-docker-build-api.yaml'
-      - 'web/**'
-      - '.github/workflows/call-docker-build-web.yaml'
 
 env:
   ECR_REGISTRY: 185332529335.dkr.ecr.eu-central-1.amazonaws.com
@@ -39,21 +37,8 @@ jobs:
         with:
             аrgs: --severity-threshold=high
 
-  checking_go:
-    needs: [gitleaks_check, checking_java]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Snyk to check for vulnerabilities of golang code
-        uses: snyk/actions/golang@master
-        continue-on-error: true
-        env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-            аrgs: --severity-threshold=high
-
   build_and_push_image-api:
-    needs: [gitleaks_check, checking_java, checking_go]
+    needs: [gitleaks_check, checking_java]
     runs-on: ubuntu-latest
 
     steps:
@@ -82,8 +67,6 @@ jobs:
           IMAGE_TAG: api-latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/web/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   # build_and_push_image_web:
