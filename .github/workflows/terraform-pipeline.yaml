@@ -6,7 +6,7 @@ on:
       - main
 
     paths:
-      - ./terraform/**
+      - ./terraform
       - .github/workflows/terraform-pipeline.yaml
     
 jobs:
