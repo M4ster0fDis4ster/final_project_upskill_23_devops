@@ -21,10 +21,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
 
-    - name: Switch context to AWS EKS
-      run: |
-        aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1 --profile default
-        kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
+    # - name: Switch context to AWS EKS
+    #   run: |
+    #     aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1 --profile default
+    #     kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
 
     - name: Install ArgoCD
       run: |
