@@ -1,0 +1,34 @@
+name: Terraform setup
+
+on: 
+  push:
+    branches:
+      - main
+
+    paths:
+      - terraform/**
+      - .github/workflows/terraform-pipeline.yaml
+    
+jobs:
+  terraform_run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '1.6.6'
+          tf_actions_working_dir: './terraform'
+
+      - name: Terraform init
+        run: terraform init
+      
+      - name: Terraform plan
+        run: terraform plan
+
+      # - name: Terraform apply
+      #   run: terraform apply
+     

@@ -2,9 +2,10 @@ name: Web Service Build, Push and Deploy
 
 on:
 
-  push:
-    branches:
-      - 'main'
+  workflow_run:
+    workflows: ['Terraform setup']
+    types:
+      - completed
 
     paths:
       - 'web/**'
