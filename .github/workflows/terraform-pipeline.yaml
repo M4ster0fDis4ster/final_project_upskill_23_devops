@@ -6,8 +6,8 @@ on:
       - main
 
     paths:
-      - terraform/**
-      - .github/workflows/terraform-pipeline.yaml
+      - ./terraform/**
+      # - .github/workflows/terraform-pipeline.yaml
     
 jobs:
   terraform_run:
