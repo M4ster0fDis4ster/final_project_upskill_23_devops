@@ -94,7 +94,7 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: api-latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/api/
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" ./app/api/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   checking_go:
@@ -139,7 +139,7 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: web-latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app/web/
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" ./app/web/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
      
