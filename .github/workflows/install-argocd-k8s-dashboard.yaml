@@ -1,10 +1,15 @@
-name: Setup EKS and Install Applications
+name: Install ArgoCD and Kubernetes Dashboard
 
 on:
   workflow_run:
     workflows: ['Terraform setup']
     types:
       - completed
+  
+env:
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    AWS_DEFAULT_REGION: eu-central-1
 
 jobs:
   setup-and-install:
@@ -20,11 +25,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
-
-    # - name: Switch context to AWS EKS
-    #   run: |
-    #     aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1 --profile default
-    #     kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
 
     - name: Install ArgoCD
       run: |
