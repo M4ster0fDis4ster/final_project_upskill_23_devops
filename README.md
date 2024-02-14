@@ -9,10 +9,10 @@ The workshop utilizes the following technologies and tools:
 - EKS: Amazon Elastic Kubernetes Service for deploying, managing, and scaling containerized applications.
 - ArgoCD: Declarative GitOps continuous delivery tool for Kubernetes.
 - Terraform: Infrastructure as Code (IaC) tool for provisioning and managing AWS resources.
-- Snyk: Continuously find and fix vulnerabilities
+- Snyk: Continuously find and fix vulnerabilities.
 - ECR: Amazon Elastic Container Registry for securely storing and managing Docker images.
 - Kubernetes Dashboard: Monitoring the k8s cluster
-- Improvement: CPU and memory metrics to show up for pods
+- Improvement: CPU and memory metrics to show up for pods.
 
 Steps:
 
