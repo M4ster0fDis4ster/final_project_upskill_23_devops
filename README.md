@@ -55,19 +55,19 @@ Steps:
     kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
 
 5) Accessing Dashboard
-Now copy the token and paste it into the Enter token field on the login screen.
+    Now copy the token and paste it into the Enter token field on the login screen.
 
-![alt text](image.png)
+    ![alt text](image.png)
 
-Click the Sign in button and that's it. You are now logged in as an admin.
+    Click the Sign in button and that's it. You are now logged in as an admin.
 
-![alt text](image-1.png)
+    ![alt text](image-1.png)
 
-You can enable access to the Dashboard using the kubectl command-line tool, by running the following command:
+    You can enable access to the Dashboard using the kubectl command-line tool, by running the following command:
 
-kubectl proxy
+    kubectl proxy
 
-Kubectl will make Dashboard available at http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
+    Kubectl will make Dashboard available at http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
 
-The UI can only be accessed from the machine where the command is executed. See kubectl proxy --help for more options.
+    The UI can only be accessed from the machine where the command is executed. See kubectl proxy --help for more options.
 
