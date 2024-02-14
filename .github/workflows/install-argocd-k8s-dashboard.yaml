@@ -33,8 +33,6 @@ jobs:
       env:
         KUBECONFIG: ${{ runner.workspace }}/kubeconfig
 
-      continue-on-error: true
-
     - name: Install Kubernetes Dashboard
       run: |
         aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1
