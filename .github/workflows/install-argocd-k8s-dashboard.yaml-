@@ -21,13 +21,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
 
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'latest'
-
     - name: Install ArgoCD
       run: |
+        aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1
+        kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
         kubectl create namespace argocd
         kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
         kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
