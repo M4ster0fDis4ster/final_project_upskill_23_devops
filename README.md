@@ -1,5 +1,7 @@
 # final_project_upskill_23_devops
 
+![alt text](image-2.png)
+
 The workshop utilizes the following technologies and tools:
 
 - GitHub Actions: CI/CD platform integrated with GitHub for automating workflows.
@@ -10,7 +12,7 @@ The workshop utilizes the following technologies and tools:
 - Snyk: Continuously find and fix vulnerabilities
 - ECR: Amazon Elastic Container Registry for securely storing and managing Docker images.
 - Kubernetes Dashboard: Monitoring the k8s cluster
-- Improvement - CPU and memory metrics to show up for pods
+- Improvement: CPU and memory metrics to show up for pods
 
 Steps:
 
