@@ -38,3 +38,4 @@ jobs:
     - name: Expose Kubernetes Dashboard
       run: |
         kubectl patch svc kubernetes-dashboard -n kubernetes-dashboard -p '{"spec": {"type": "LoadBalancer"}}'
+        
