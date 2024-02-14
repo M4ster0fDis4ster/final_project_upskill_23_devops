@@ -31,11 +31,16 @@ jobs:
       env:
         KUBECONFIG: ${{ runner.workspace }}/kubeconfig
 
+      continue-on-error: true
+
     - name: Install Kubernetes Dashboard
       run: |
+        aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1
+        kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
         kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
 
     - name: Expose Kubernetes Dashboard
       run: |
+        aws eks update-kubeconfig --name eks-dev0ps-cluster --region eu-central-1
+        kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
         kubectl patch svc kubernetes-dashboard -n kubernetes-dashboard -p '{"spec": {"type": "LoadBalancer"}}'
-        
