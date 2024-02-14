@@ -18,10 +18,41 @@ Steps:
 
 1) Push to repo to start the Github Actions pipeline to check the code and create the AWS infrastructure using Terraform and push the images to ECR for api and web
 2) Second pipeline will be triggered after the 1st one has completed successfully to install ArgoCD and Kuberenetes Dashboard to EKS
+3) Argo CD intial admin secret
+    
+    argocd admin initial-password -n argocd
+
+    ![alt text](image-3.png)
+
+4) Argo CD configuration
+
+    - add the repository to argo cd
+    - I will do it VIA SSH
+    - add the public ssh key to you Github account setting
+    - add the private ssh key to the argocd repository connect page
+
+    ![alt text](image-4.png)
+
+5) Deploy the Microservices Manifests:
+
+    - under k8s-manifests/ you will find Application CRD for argocd app to deploy our manifest resources to Kubernetes
+    - argocd homepage create NEW APP
+    - Application Name: wordsmith-app
+    - Project Name: default
+    - Sync Policy: Automatic
+    - [x] PRUNE RESOURCES
+    - [x] SELF HEAL
+    - Repository URL:
+    - Path: .
+    - Cluster URL:
+    - Namespace: wordsmith-app
+
+    ![alt text](image-5.png)
+    
 3) Third pipeline to start to Create Kubernetes ServiceAccount, ClusterRoleBinding and Secret
 4) After Secret is created, we can execute the following command to get the token which saved in the Secret:
 
-kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
 
 5) Accessing Dashboard
 Now copy the token and paste it into the Enter token field on the login screen.
