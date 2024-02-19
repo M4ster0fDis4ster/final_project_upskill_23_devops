@@ -27,7 +27,7 @@ jobs:
         kubectl config use-context arn:aws:eks:eu-central-1:185332529335:cluster/eks-dev0ps-cluster
         kubectl create namespace wordsmith-app
         kubectl create namespace argocd
-        kubectl create namespace wordsmith-app
+        kubectl create namespace kubernetes-dashboard
         kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
         kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
       env:
